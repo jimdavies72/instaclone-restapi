@@ -50,3 +50,37 @@ exports.deleteMovie = async (req, res) => {
     res.status(500).send({ err: error.message });
   }
 };
+
+// Andy's version of update Movie and Delete Move....
+exports.updateMovieAB = async (req, res) => {
+  try {
+    const updatedMovie = await Movie.updateOne(
+      { [req.body.filterKey]: req.body.filterVal },
+      { [req.body.updateKey]: req.body.updateVal }
+    );
+    if (updatedMovie.modifiedCount > 0) {
+      res.status(200).send({ msg: "Successfully updated movie" });
+    } else {
+      throw new Error("Did not update");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
+
+exports.deleteMovieAB = async (req, res) => {
+  try {
+    const deletedMovie = await Movie.deleteOne({
+      [req.params.filterKey]: req.params.filterVal,
+    });
+    if (deletedMovie.deletedCount > 0) {
+      res.status(200).send({ msg: "Successfully deleted movie" });
+    } else {
+      throw new Error("Did not delete");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};

@@ -1,9 +1,11 @@
+const jwt = require("jsonwebtoken");
 const User = require("./userModel");
 
 exports.addUser = async (req, res) => {
   try {
     const newUser = await User.create(req.body);
-    res.status(200).send({ user: newUser.username });
+    const token = await jwt.sign({ _id: newUser._id }, process.env.SECRET);
+    res.status(200).send({ user: newUser.username, token });
   } catch (error) {
     console.log(error);
     res.status(500).send({ err: error.message });
