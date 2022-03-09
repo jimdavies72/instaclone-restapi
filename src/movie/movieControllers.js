@@ -13,7 +13,7 @@ exports.addMovie = async (req, res) => {
 exports.listMovies = async (req, res) => {
   try {
     const movies = await Movie.find({});
-    res.status(200).send({ allMovies: movies });
+    res.status(200).send({ movies: movies });
   } catch (error) {
     console.log(error);
     res.status(500).send({ err: error.message });
@@ -21,38 +21,6 @@ exports.listMovies = async (req, res) => {
 };
 
 exports.updateMovie = async (req, res) => {
-  try {
-    const filter = { _id: req.params.id };
-    const update = req.body;
-    const options = { new: true };
-
-    const movie = await Movie.findOneAndUpdate(filter, update, options);
-
-    movie
-      ? res.status(200).send({ movie })
-      : res.status(404).send({ msg: `Movie: ${req.params.id} not found` });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ err: error.message });
-  }
-};
-
-exports.deleteMovie = async (req, res) => {
-  try {
-    result = await Movie.deleteOne({ _id: req.params.id });
-    if (result.deletedCount === 0) {
-      res.status(404).send({ msg: `Movie: ${req.params.id} not found` });
-    } else {
-      res.status(200).send({ msg: `Movie: ${req.params.id} has been removed` });
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ err: error.message });
-  }
-};
-
-// The instructor's version of update Movie and Delete Movie for reference
-exports.updateMovieAB = async (req, res) => {
   try {
     const updatedMovie = await Movie.updateOne(
       { [req.body.filterKey]: req.body.filterVal },
@@ -69,7 +37,7 @@ exports.updateMovieAB = async (req, res) => {
   }
 };
 
-exports.deleteMovieAB = async (req, res) => {
+exports.deleteMovie = async (req, res) => {
   try {
     const deletedMovie = await Movie.deleteOne({
       [req.params.filterKey]: req.params.filterVal,
