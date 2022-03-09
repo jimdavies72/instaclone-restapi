@@ -20,3 +20,68 @@ exports.loginUser = async (req, res) => {
     res.status(500).send({ err: error.message });
   }
 };
+
+exports.listUsers = async (req, res) => {
+  try {
+    const users = await User.find({});
+    res.status(200).send({ users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
+
+exports.updateUser = async (req, res) => {
+  try {
+    const updatedUser = await User.updateOne(
+      { [req.body.filterKey]: req.body.filterVal },
+      { [req.body.updateKey]: req.body.updateVal }
+    );
+
+    if (updatedUser.modifiedCount > 0) {
+      res.status(200).send({ msg: "Successfully updated user" });
+    } else {
+      throw new Error("Did not update");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
+
+exports.updatePassword = async (req, res) => {
+  try {
+    const updatedPassword = await User.updateOne(
+      { username: req.user.username },
+      { password: req.body.password }
+    );
+
+    if (updatedPassword.modifiedCount > 0) {
+      res.status(200).send({ msg: "Successfully updated password" });
+    } else {
+      throw new Error("Did not update");
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const user = await User.deleteOne({
+      [req.params.filterKey]: req.params.filterVal,
+    });
+
+    if (user.deletedCount > 0) {
+      res
+        .status(200)
+        .send({ msg: `User: ${req.params.filterVal} has been removed` });
+    } else {
+      res.status(404).send({ err: `User: ${req.params.filterVal} not found` });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};

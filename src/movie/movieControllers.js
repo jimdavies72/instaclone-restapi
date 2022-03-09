@@ -51,7 +51,7 @@ exports.deleteMovie = async (req, res) => {
   }
 };
 
-// Andy's version of update Movie and Delete Move....
+// The instructor's version of update Movie and Delete Movie for reference
 exports.updateMovieAB = async (req, res) => {
   try {
     const updatedMovie = await Movie.updateOne(
