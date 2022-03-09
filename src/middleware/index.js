@@ -31,7 +31,11 @@ exports.decryptPassword = async (req, res, next) => {
 
 exports.validateEmail = (req, res, next) => {
   try {
-    if (validator.validate(req.body.email)) {
+    let email;
+    req.body.updateVal
+      ? (email = req.body.updateVal)
+      : (email = req.body.email);
+    if (validator.validate(email)) {
       next();
     } else {
       throw new Error("email address is in incorrect format");
@@ -46,7 +50,7 @@ exports.validateUsername = (req, res, next) => {
     if (req.body.username.match("^[A-Za-z0-9]+$")) {
       next();
     } else {
-      throw new Error("Username can only use letters and numbers");
+      throw new Error("Username can only contain letters and numbers");
     }
   } catch (error) {
     res.status(500).send({ err: error.message });
@@ -55,8 +59,10 @@ exports.validateUsername = (req, res, next) => {
 
 exports.checkToken = async (req, res, next) => {
   try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decodedToken = await jwt.verify(token, process.env.SECRET);
+    const decodedToken = await jwt.verify(
+      req.header("Authorization").replace("Bearer ", ""),
+      process.env.SECRET
+    );
     req.user = await User.findById(decodedToken._id);
     if (req.user) {
       next();
