@@ -13,7 +13,6 @@ const {
   checkToken,
   validateEmail,
   validateUsername,
-  updatePass,
 } = require("../middleware");
 const userRouter = Router();
 
