@@ -6,6 +6,7 @@ const {
   updateUser,
   deleteUser,
   updatePassword,
+  searchUser,
 } = require("./userControllers");
 const {
   hashPassword,
@@ -30,6 +31,7 @@ userRouter.get("/user", checkToken, loginUser);
 userRouter.patch("/user", hashPassword, checkToken, updatePassword);
 userRouter.put("/user", validateEmail, updateUser);
 userRouter.delete("/user/:username", checkToken, deleteUser);
+userRouter.post("/user/search", searchUser);
 userRouter.get("/user/list", listUsers);
 
 module.exports = userRouter;

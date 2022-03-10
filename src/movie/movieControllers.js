@@ -37,7 +37,7 @@ exports.searchMovies = async (req, res) => {
     const movies = await Movie.find({
       [req.body.filterKey]: { $regex: req.body.filterVal },
     });
-    res.status(200).send({ movies });
+    res.status(200).send({ movies: movies });
   } catch (error) {
     console.log(error);
     res.status(500).send({ error: error.message });
