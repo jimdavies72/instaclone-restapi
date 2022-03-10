@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const validator = require("email-validator");
-const { JsonWebTokenError } = require("jsonwebtoken");
 const User = require("../user/userModel");
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 

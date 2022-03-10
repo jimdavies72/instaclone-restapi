@@ -23,11 +23,13 @@ userRouter.post(
   hashPassword,
   addUser
 );
+// login with username and password
 userRouter.post("/login", decryptPassword, loginUser);
+// login with a jwt token
 userRouter.get("/user", checkToken, loginUser);
-userRouter.get("/user/list", listUsers);
-userRouter.put("/user", validateEmail, updateUser);
-userRouter.delete("/user/:filterKey/:filterVal", deleteUser);
 userRouter.patch("/user", hashPassword, checkToken, updatePassword);
+userRouter.put("/user", validateEmail, updateUser);
+userRouter.delete("/user/:username", checkToken, deleteUser);
+userRouter.get("/user/list", listUsers);
 
 module.exports = userRouter;
