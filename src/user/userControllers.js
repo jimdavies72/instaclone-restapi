@@ -69,16 +69,16 @@ exports.updatePassword = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.deleteOne({
-      [req.params.filterKey]: req.params.filterVal,
-    });
-
-    if (user.deletedCount > 0) {
-      res
-        .status(200)
-        .send({ msg: `User: ${req.params.filterVal} has been removed` });
+    let result;
+    if (req.user.username === req.params.username) {
+      result = await User.deleteOne({
+        username: req.user.username,
+      });
+    }
+    if (result && result.deletedCount > 0) {
+      res.status(200).send({ msg: `User has been deleted` });
     } else {
-      res.status(404).send({ err: `User: ${req.params.filterVal} not found` });
+      throw new Error("User was not deleted");
     }
   } catch (error) {
     console.log(error);
