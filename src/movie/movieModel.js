@@ -9,6 +9,12 @@ const movieSchema = new mongoose.Schema({
   actors: {
     type: Array,
   },
+  synopsis: {
+    type: String,
+  },
+  user_id: {
+    type: String,
+  },
 });
 
 const Movie = mongoose.model("Movie", movieSchema);

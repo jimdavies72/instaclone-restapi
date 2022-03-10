@@ -20,6 +20,30 @@ exports.listMovies = async (req, res) => {
   }
 };
 
+exports.listMyMovies = async (req, res) => {
+  try {
+    const movies = await Movie.find({
+      [req.body.filterKey]: req.body.filterVal,
+    });
+    res.status(200).send({ mymovies: movies });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
+  }
+};
+
+exports.searchMovies = async (req, res) => {
+  try {
+    const movies = await Movie.find({
+      [req.body.filterKey]: { $regex: req.body.filterVal },
+    });
+    res.status(200).send({ movies });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
+  }
+};
+
 exports.updateMovie = async (req, res) => {
   try {
     const updatedMovie = await Movie.updateOne(
