@@ -31,6 +31,21 @@ exports.listUsers = async (req, res) => {
   }
 };
 
+exports.searchUser = async (req, res) => {
+  try {
+    const user = await User.find(
+      {
+        [req.body.filterKey]: req.body.filterVal,
+      },
+      "username email"
+    );
+    res.status(200).send({ user: user });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: error.message });
+  }
+};
+
 exports.updateUser = async (req, res) => {
   try {
     const updatedUser = await User.updateOne(
