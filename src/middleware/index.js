@@ -17,7 +17,10 @@ exports.hashPassword = async (req, res, next) => {
 exports.decryptPassword = async (req, res, next) => {
   try {
     req.user = await User.findOne({ username: req.body.username });
-    if (await bcrypt.compare(req.body.password, req.user.password)) {
+    if (
+      req.user &&
+      (await bcrypt.compare(req.body.password, req.user.password))
+    ) {
       next();
     } else {
       throw new Error("Incorrect credentials supplied");
