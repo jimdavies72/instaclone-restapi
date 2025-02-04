@@ -1,8 +1,8 @@
-require("./db/connection");
+require("../src/db/connection");
 const express = require("express");
 const cors = require("cors");
-const movieRouter = require("./movie/movieRoutes");
-const userRouter = require("./user/userRoutes");
+const movieRouter = require("../src/movie/movieRoutes");
+const userRouter = require("../src/user/userRoutes");
 const app = express();
 const port = process.env.PORT || 5001;
 
